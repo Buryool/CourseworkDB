@@ -1,13 +1,11 @@
-package Week3; /**
- * 向web服务发送请求并获得响应的示例代码。
- */
+package Week3;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class PosTagger {
 
@@ -29,7 +27,7 @@ public class PosTagger {
             conn.setDoOutput(true);
 
             //发送我的请求
-            conn.getOutputStream().write(myRequest.getBytes("UTF-8"));
+            conn.getOutputStream().write(myRequest.getBytes(StandardCharsets.UTF_8));
 
             //从服务获得应答
             conn.getInputStream();
@@ -38,7 +36,7 @@ public class PosTagger {
             //
             byte[] buf = new byte[1024];
             ByteArrayOutputStream sb = new ByteArrayOutputStream();
-            int i = 0;
+            int i;
             while ((i = content.read(buf)) != -1) {
                 sb.write(buf, 0, i);
             }

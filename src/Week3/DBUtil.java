@@ -12,7 +12,7 @@ public class DBUtil {
     // 连接数据库
     public static Connection getConnection(String dbDriver, String dbURL, String username, String password) {
 
-        Connection connection = null;
+        Connection connection;
 
         try {
             Class.forName(dbDriver);
@@ -25,9 +25,7 @@ public class DBUtil {
         return null;
     }
 
-    /**连接到本地数据库并返回conenction。
-     * @retutn 数据库conenction;如果无法连接数据库，则返回null。
-     */
+
     public static Connection getLocalConnection() {
         String databaseAddress = "jdbc:mysql://localhost:3306/distibutysytem_db1";
         String databaseUsername = "root";
@@ -73,7 +71,7 @@ public class DBUtil {
 
         try {
             int colNum = rsmd.getColumnCount();
-            List<String> colNames = new ArrayList<String>();
+            List<String> colNames = new ArrayList<>();
 
             for (int i = 1; i <= colNum; i++) {
                 colNames.add(rsmd.getColumnName(i));
@@ -94,13 +92,13 @@ public class DBUtil {
      */
     public static List<List> getResult(ResultSet rset) {
 
-        List<List> result = new ArrayList<List>();
+        List<List> result = new ArrayList<>();
         List<String> row;
 
         try {
             int colNum = rset.getMetaData().getColumnCount();
             while (rset.next()) {
-                row = new ArrayList<String>();
+                row = new ArrayList<>();
 
                 for (int i = 1; i <= colNum; i++) {
                     row.add(rset.getString(i));
@@ -118,48 +116,15 @@ public class DBUtil {
     }
 
     public static String listToString(List<List> list) {
-        String res = "";
-        for (int i = 0; i < list.size(); i++){
-            for (int j = 0; j < list.get(i).size(); j++){
-                res += list.get(i).get(j);
-                res += " ";
+        StringBuilder res = new StringBuilder();
+        for (List value : list) {
+            for (Object o : value) {
+                res.append(o);
+                res.append(" ");
             }
-            res += "\n";
+            res.append("\n");
         }
-        return res;
+        return res.toString();
     }
 
-    /**
-     * @param rset JDBC结果集
-     * @return 列表的列表包含一个表的元素
-     */
-    public static List<List> getFilteredResult(ResultSet rset, int col, String filterValue) {
-
-        List<List> result = new ArrayList<List>();
-        List<String> row;
-
-        try {
-            int colNum = rset.getMetaData().getColumnCount();
-            while (rset.next()) {
-
-                //If the value of this colums equals to the filter string, ignore this row.
-                if (rset.getString(col).equals(filterValue)) {
-                    continue;
-                }
-
-                row = new ArrayList<String>();
-                for (int i = 1; i <= colNum; i++) {
-                    row.add(rset.getString(i));
-                }
-
-                result.add(row);
-            }
-            return result;
-        } catch (SQLException e) {
-            System.err.println("Error in retrieving data.");
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

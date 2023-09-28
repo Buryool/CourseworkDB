@@ -5,15 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 
 public class Client01 {
     public String connectService(String webURL) {
-
-        String myMessage = "测试信息";
-
         //假设服务使用可变的“message”来接收消息。
-        String myRequest = "message=" + myMessage;
+        String myRequest = "TestMessage";
 
         try {
 
@@ -28,7 +26,7 @@ public class Client01 {
             conn.setDoOutput(true);
 
             //发送请求
-            conn.getOutputStream().write(myRequest.getBytes("UTF-8"));
+            conn.getOutputStream().write(myRequest.getBytes(StandardCharsets.UTF_8));
 
             //从服务部门得到答复
             conn.getInputStream();
@@ -37,7 +35,7 @@ public class Client01 {
             //将输入字符串转换为字节数组
             byte[] buf = new byte[1024];
             ByteArrayOutputStream sb = new ByteArrayOutputStream();
-            int i = 0;
+            int i;
             while ((i = content.read(buf)) != -1) {
                 sb.write(buf, 0, i);
             }
@@ -45,10 +43,7 @@ public class Client01 {
             //关闭Web服务连接
             content.close();
 
-            //将字节数据转换为字符串
-            String responseFromServer = sb.toString();
-
-            return responseFromServer;
+            return sb.toString();
         } catch (IOException ex) {
             return null;
         }
