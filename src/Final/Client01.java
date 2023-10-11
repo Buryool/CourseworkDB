@@ -1,4 +1,4 @@
-package Week4;
+package Final;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class Client01 {
         Client01 client01 = new Client01();
 
         //服务的本地主机地址
-        String myURL1 = "http://localhost:8080/Distributy_System_Study_war_exploded/Servlet01";
+        String myURL1 = "http://localhost:8080/Distributy_System_Study_war_exploded/AllInfo";
         String response1 = client01.connectService(myURL1);
         System.out.println(myURL1 + "\n");
         System.out.println(response1);

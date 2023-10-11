@@ -1,6 +1,4 @@
-package Week4;
-
-import Week3.DBUtil;
+package Final;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,30 +7,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Servlet01")
+@WebServlet("/AllInfo")
 public class Servlet01 extends HttpServlet {
+    private Connection c;
+
+    // 在Servlet初始化的时候获取数据库连接，用来在本类中操作数据库
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        ServletContext context = getServletContext();
+        c = (Connection) context.getAttribute("dbConnection");
+        System.out.println("数据库连接：" + c);
+    }
+
     private String selectAll_test(){
-        String res = null;
+        String res;
+        String query = "Select * from people;";
+        Statement statement;
 
         try {
-            Connection c = DBUtil.getLocalConnection();
-            String query = "Select * from people;";
-            Statement statement = c.createStatement();
-
+            statement = c.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             List<List> result = DBUtil.getResult(resultSet);
             res = DBUtil.listToString(result);
-        } catch (SQLException ex) {
-            System.err.println("Error in retrieving data.");
-            ex.printStackTrace();
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return res;
@@ -44,7 +50,7 @@ public class Servlet01 extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet2</title>");
+            out.println("<title>数据库全部信息</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>" + selectAll_test() + "</h1>");
@@ -66,11 +72,4 @@ public class Servlet01 extends HttpServlet {
         System.out.println("doPost方法被调用！");
         processRequest(request, response);
     }
-
-    // 获取对Servlet的简要描述
-    @Override
-    public String getServletInfo() {
-        return "Servlet的简要描述~";
-    }
-
 }
