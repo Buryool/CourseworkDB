@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -27,9 +28,8 @@ public class Servlet01 extends HttpServlet {
         System.out.println("数据库连接：" + c);
     }
 
-    private String selectAll_test(){
+    private String exeQuery(String query){
         String res;
-        String query = "Select * from people;";
         Statement statement;
 
         try {
@@ -46,6 +46,10 @@ public class Servlet01 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        String sql = request.getParameter("sql");
+        System.out.println("SQL信息：" + sql);
+
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -53,7 +57,7 @@ public class Servlet01 extends HttpServlet {
             out.println("<title>数据库全部信息</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>" + selectAll_test() + "</h1>");
+            out.println("<h1>" + exeQuery(sql) + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

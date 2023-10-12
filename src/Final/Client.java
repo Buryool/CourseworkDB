@@ -8,10 +8,11 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 
-public class Client01 {
+public class Client {
     public String connectService(String webURL) {
         //假设服务使用可变的“message”来接收消息。
-        String myRequest = "TestMessage";
+        String sql = "select * from people where age = 20";
+        String myRequest = "sql=" + sql;
 
         try {
 
@@ -51,11 +52,11 @@ public class Client01 {
 
     public static void main(String[] args) {
 
-        Client01 client01 = new Client01();
+        Client client = new Client();
 
         //服务的本地主机地址
         String myURL1 = "http://localhost:8080/Distributy_System_Study_war_exploded/AllInfo";
-        String response1 = client01.connectService(myURL1);
+        String response1 = client.connectService(myURL1);
         System.out.println(myURL1 + "\n");
         System.out.println(response1);
     }
