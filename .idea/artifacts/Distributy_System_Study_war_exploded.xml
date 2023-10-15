@@ -5,7 +5,7 @@
       <element id="javaee-facet-resources" facet="Distributy_System_Study/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Distributy_System_Study" />
+          <element id="module-output" name="CourseworkDB" />
         </element>
       </element>
     </root>
