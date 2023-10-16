@@ -45,6 +45,7 @@ public class Servlet_Query extends HttpServlet {
             mutex.release();
             // 读
             ResultSet resultSet = statement.executeQuery(query);
+            System.out.println("DB进行了读操作");
             // 最后一个读进程解锁
             mutex.acquire();
             readerCount--;
